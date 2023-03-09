@@ -2,7 +2,7 @@
 
 ___
 
- [Ссылка проекта]()
+ [Ссылка проекта](https://leilasuleimanova.github.io/mesto/)
 
 ___
 
