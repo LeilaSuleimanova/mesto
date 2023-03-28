@@ -1,4 +1,4 @@
-.popup__profile {
+.popup__input {
 padding: 0 0 9px 0;
 border-style: hidden;
 border-bottom: 1px solid rgba(0, 0, 0, 0.20);
@@ -11,12 +11,12 @@ color: black;
 margin-bottom: 27px;
 }
 
-.popup__profile:last-child {
+.popup__input:last-child {
   margin-bottom: 0;
 }
 
 @media screen and (max-width: 610px) {
-  .popup__profile {
+  .popup__input {
     width: 238px;
     margin-bottom: 26px;
     padding-bottom: 10px;
