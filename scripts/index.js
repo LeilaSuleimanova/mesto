@@ -1,6 +1,5 @@
 // Константы для первого попапа
 const popupProfile = document.querySelector('#popup-profile')
-const popupCloseButtonEdit = popupProfile.querySelector('.popup__close')
 const popupEditButton = document.querySelector('.profile__edit-button')
 const formProfile = popupProfile.querySelector('.popup__form')
 const nameInput = formProfile.querySelector('.popup__input_type_name')
@@ -11,7 +10,6 @@ const profileJob = document.querySelector('.profile__subtitle')
 // Константы для второго попапа
 const popupAdd = document.querySelector('#popup-add')
 const popupAddButton = document.querySelector('.profile__add-button')
-const popupCloseButtonAdd = popupAdd.querySelector('.popup__close')
 const formAdd = popupAdd.querySelector("form[name='popup-form-add']")
 const titleInput = popupAdd.querySelector(".popup__input_type_title")
 const urlInput = popupAdd.querySelector(".popup__input_type_url")
@@ -22,7 +20,6 @@ const elements = document.querySelector(".elements")
 //Константы для третьего попапа
 const popupWrapImage = document.querySelector('#popup-image')
 const popupImage = popupWrapImage.querySelector('.popup__image')
-const popupCloseImg = popupWrapImage.querySelector('.popup__close')
 const popupImageTitle = popupWrapImage.querySelector('.popup__image-title')
 
 // Массив карточек
@@ -85,14 +82,17 @@ function handleFormSubmit(event) {
 initialCards.forEach(renderCards)
 
 function renderCards(item) {
-  //настройка под шаблон template
+  const newCard = createCard(item);
+  elements.append(newCard);
+}
+
+function createCard(item) {
   const template = document.querySelector(".template-cards").content
   const cardElement = template.cloneNode(true)
   const likeButton = cardElement.querySelector('.element__button-like')
   const deleteButton = cardElement.querySelector('.element__button-delete')
   const imgElement = cardElement.querySelector('.element__image')
 
-  //лайки карточек
   likeButton.addEventListener('click', () =>
     likeButton.classList.toggle("element__button-like_active"))
   imgElement.src = item.link;
@@ -100,31 +100,24 @@ function renderCards(item) {
   cardElement.querySelector('.element__title').textContent = item.name;
   deleteButton.addEventListener('click', handleDeleteCard)
 
-  cardElement.addEventListener('click', () => {
-    openPopup(popupWrapImage);
-    popupImage.src = item.src;
-    popupImage.alt = item.alt;
-    popupImageTitle.textContent = item.alt;
-  });
-
-  //открытие третьего попапа
   imgElement.addEventListener('click', function () {
     openPopup(popupWrapImage);
     popupImage.src = imgElement.src;
     popupImageTitle.textContent = imgElement.alt;
   });
 
-  elements.prepend(cardElement);
+  return cardElement
 }
 
 function handleAddCard(event) {
   event.preventDefault();
-  const newCard = {
+  const newCard = createCard({
     name: titleInput.value,
     link: urlInput.value
-  }
-  renderCards(newCard);
+  })
+  elements.prepend(newCard);
   closePopup(popupAdd);
+  event.target.reset();
 }
 
 // Удаление карточки
@@ -133,15 +126,19 @@ function handleDeleteCard(event) {
   card.remove();
 }
 
+// находим все крестики проекта по универсальному селектору
+const closeButtons = document.querySelectorAll('.popup__close');
+
+closeButtons.forEach((button) => {
+  // находим 1 раз ближайший к крестику попап
+  const popup = button.closest('.popup');
+  // устанавливаем обработчик закрытия на крестик
+  button.addEventListener('click', () => closePopup(popup));
+});
+
 formProfile.addEventListener('submit', handleFormSubmit);
 formAdd.addEventListener('submit', handleAddCard);
 
 popupEditButton.addEventListener("click", openPopupEdit);
 popupAddButton.addEventListener("click", openPopupAdd);
-popupCloseButtonEdit.addEventListener("click", () => closePopup(popupProfile));
-popupCloseButtonAdd.addEventListener("click", () => closePopup(popupAdd));
-popupCloseImg.addEventListener("click", () => closePopup(popupWrapImage));
-
-
-
 
