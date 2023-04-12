@@ -6,6 +6,7 @@ const nameInput = formProfile.querySelector('.popup__input_type_name')
 const jobInput = formProfile.querySelector('.popup__input_type_info')
 const profileName = document.querySelector('.profile__title')
 const profileJob = document.querySelector('.profile__subtitle')
+const popupElement = document.querySelector('.profile__subtitle')
 
 // Константы для второго попапа
 const popupAdd = document.querySelector('#popup-add')
@@ -61,13 +62,35 @@ const openPopupAdd = function () {
   openPopup(popupAdd);
 };
 
+
+//Добавление класса открытия попапа в разметку
 const openPopup = popup => {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupButtonEsc)
+  popup.addEventListener('click', closePopupOnOverlay)
 }
 
 // Функция закрытия попапа
 const closePopup = popup => {
   popup.classList.remove('popup_opened');
+  document.removeEventListener("keydown", closePopupButtonEsc)
+  popup.addEventListener('click', closePopupOnOverlay)
+}
+
+const closePopupOnOverlay = (evt) => {
+  if (evt.target !== evt.currentTarget) {
+    return;
+  }
+  closePopup(evt.target);
+}
+
+const closePopupButtonEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_opened')
+    if (activePopup) {
+      closePopup(activePopup)
+    }
+  }
 }
 
 // Отображение в попапе инпутов
@@ -141,4 +164,21 @@ formAdd.addEventListener('submit', handleAddCard);
 
 popupEditButton.addEventListener("click", openPopupEdit);
 popupAddButton.addEventListener("click", openPopupAdd);
+
+// включение валидации вызовом enableValidation
+// все настройки передаются при вызове
+
+const enableValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_invalid',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
+allValidationForms(enableValidation)
+
+
+
 
