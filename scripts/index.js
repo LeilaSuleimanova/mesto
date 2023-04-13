@@ -60,9 +60,10 @@ const openPopupEdit = function () {
 
 const openPopupAdd = function () {
   openPopup(popupAdd);
-  const input = document.querySelector('.popup__input')
-  const button = document.querySelector('.popup__save-button')
+  const input = popupAdd.querySelector('.popup__input')
+  const button = popupAdd.querySelector('.popup__save-button')
   if (!input.value) {
+    button.classList.add('popup__save-button_invalid')
     button.setAttribute('disabled', '')
   }
 };
