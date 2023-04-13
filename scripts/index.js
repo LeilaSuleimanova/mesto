@@ -130,7 +130,9 @@ function createCard(item) {
   imgElement.addEventListener('click', function () {
     openPopup(popupWrapImage);
     popupImage.src = imgElement.src;
+    popupImage.alt = imgElement.alt;
     popupImageTitle.textContent = imgElement.alt;
+
   });
 
   return cardElement
