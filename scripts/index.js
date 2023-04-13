@@ -60,8 +60,12 @@ const openPopupEdit = function () {
 
 const openPopupAdd = function () {
   openPopup(popupAdd);
+  const input = document.querySelector('.popup__input')
+  const button = document.querySelector('.popup__save-button')
+  if (!input.value) {
+    button.setAttribute('disabled', '')
+  }
 };
-
 
 //Добавление класса открытия попапа в разметку
 const openPopup = popup => {
@@ -74,7 +78,7 @@ const openPopup = popup => {
 const closePopup = popup => {
   popup.classList.remove('popup_opened');
   document.removeEventListener("keydown", closePopupButtonEsc)
-  popup.addEventListener('click', closePopupOnOverlay)
+  popup.removeEventListener('click', closePopupOnOverlay)
 }
 
 const closePopupOnOverlay = (evt) => {
