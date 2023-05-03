@@ -1,3 +1,23 @@
+import FormValidator from "./formValidator.js"
+import Card from "./card.js"
+
+const formPopupAdd = document.querySelector('#popup-form-add')
+const formPopupInfo = document.querySelector('#popup-form-info')
+
+const enableValidation = {
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_invalid',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
+const formAddInstance = new FormValidator(formPopupAdd, enableValidation)
+const formInfoInstance = new FormValidator(formPopupInfo, enableValidation)
+
+formAddInstance.enableValidation()
+formInfoInstance.enableValidation()
+
 // Константы для первого попапа
 const popupProfile = document.querySelector('#popup-profile')
 const popupEditButton = document.querySelector('.profile__edit-button')
@@ -23,33 +43,8 @@ const popupWrapImage = document.querySelector('#popup-image')
 const popupImage = popupWrapImage.querySelector('.popup__image')
 const popupImageTitle = popupWrapImage.querySelector('.popup__image-title')
 
-// Массив карточек
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+//константы для класса Кард
+const selectorTemplate = '.template-cards'
 
 // Функция открытия попапа
 const openPopupEdit = function () {
@@ -69,7 +64,7 @@ const openPopupAdd = function () {
 };
 
 //Добавление класса открытия попапа в разметку
-const openPopup = popup => {
+export const openPopup = popup => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupButtonEsc)
   popup.addEventListener('click', closePopupOnOverlay)
@@ -98,7 +93,18 @@ const closePopupButtonEsc = (evt) => {
   }
 }
 
-// Отображение в попапе инпутов
+function createNewCard(cardData) {
+  const newCard = new Card(cardData, selectorTemplate);
+  const cardElement = newCard.createCard()
+  return cardElement
+}
+
+//добавление карточки
+function addCard(container, newCard) {
+  container.prepend(newCard);
+}
+
+// Обработка Сабмит инпут
 function handleFormSubmit(event) {
   event.preventDefault();
   profileName.textContent = nameInput.value;
@@ -106,54 +112,22 @@ function handleFormSubmit(event) {
   closePopup(popupProfile);
 };
 
-// Добавление карточек
-initialCards.forEach(renderCards)
-
-function renderCards(item) {
-  const newCard = createCard(item);
-  elements.append(newCard);
-}
-
-function createCard(item) {
-  const template = document.querySelector(".template-cards").content
-  const cardElement = template.cloneNode(true)
-  const likeButton = cardElement.querySelector('.element__button-like')
-  const deleteButton = cardElement.querySelector('.element__button-delete')
-  const imgElement = cardElement.querySelector('.element__image')
-
-  likeButton.addEventListener('click', () =>
-    likeButton.classList.toggle("element__button-like_active"))
-  imgElement.src = item.link;
-  imgElement.alt = item.name;
-  cardElement.querySelector('.element__title').textContent = item.name;
-  deleteButton.addEventListener('click', handleDeleteCard)
-
-  imgElement.addEventListener('click', function () {
-    openPopup(popupWrapImage);
-    popupImage.src = imgElement.src;
-    popupImage.alt = imgElement.alt;
-    popupImageTitle.textContent = imgElement.alt;
-
-  });
-
-  return cardElement
-}
-
 function handleAddCard(event) {
   event.preventDefault();
-  const newCard = createCard({
+  const newCard = {
     name: titleInput.value,
     link: urlInput.value
-  })
-  elements.prepend(newCard);
+  }
+  addCard(elements, createNewCard(newCard))
   closePopup(popupAdd);
   event.target.reset();
 }
 
-// Удаление карточки
-function handleDeleteCard(event) {
-  const card = event.target.closest('.element');
-  card.remove();
+// создание при загрузке страницы начальных карточек
+initialCards.forEach(renderCards)
+
+function renderCards(cardData) {
+  addCard(elements, createNewCard(cardData))
 }
 
 // находим все крестики проекта по универсальному селектору
@@ -172,19 +146,7 @@ formAdd.addEventListener('submit', handleAddCard);
 popupEditButton.addEventListener("click", openPopupEdit);
 popupAddButton.addEventListener("click", openPopupAdd);
 
-// включение валидации вызовом enableValidation
-// все настройки передаются при вызове
 
-const enableValidation = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_invalid',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
-
-allValidationForms(enableValidation)
 
 
 
