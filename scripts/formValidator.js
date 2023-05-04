@@ -13,6 +13,15 @@ class FormValidator {
     this._formInputs = Array.from(this._form.querySelectorAll(this._inputSelector))
     this._formButton = this._form.querySelector(this._submitButtonSelector)
     this._setEventListeners()
+    this.toggleButtonState()
+  }
+
+  toggleButtonState() {
+    if (this._hasInvalidInput()) {
+      this._disableButton()
+    } else {
+      this._enableButton()
+    }
   }
 
   _setEventListeners() {
@@ -20,11 +29,7 @@ class FormValidator {
     this._formInputs.forEach(input => {
       input.addEventListener('input', (evt) => {
         this._checkInputValidity(input)
-        if (this._hasInvalidInput()) {
-          this._disableButton()
-        } else {
-          this._enableButton()
-        }
+        this.toggleButtonState()
       })
     })
   }

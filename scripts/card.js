@@ -1,14 +1,11 @@
-import { openPopup } from './index.js'
-
 class Card {
-  constructor(cardData, selectorTemplate) {
+  constructor(cardData, selectorTemplate, handleOpenPopup) {
     this._cardData = cardData;
-    this._link = cardData.link;
-    this._name = cardData.name;
     this._selectorTemplate = selectorTemplate;
+    this._handleOpenPopup = handleOpenPopup;
   }
 
-  _getTemlplateNewCard() {
+  _getNewCardFromTemplate() {
     return document.querySelector(this._selectorTemplate).content.querySelector('.element').cloneNode(true);
   }
 
@@ -21,34 +18,23 @@ class Card {
     this._cloneElement = null;
   }
 
-  _handleOpenImageElement = () => {
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupImageTitle.textContent = this._name;
-    openPopup(popupWrapImage);
-  }
-
   _setEventListeners() {
     this._buttonLikeElement.addEventListener('click', this._handleButtonLike)
     this._buttonDeleteElement.addEventListener('click', this._handleButtonDeleteElement)
-    this._imageElement.addEventListener('click', this._handleOpenImageElement)
+    this._imageElement.addEventListener('click', () => this._handleOpenPopup(this._cardData.name, this._cardData.link))
   }
 
   createCard() {
-    this._cloneElement = this._getTemlplateNewCard();
+    this._cloneElement = this._getNewCardFromTemplate();
     this._imageElement = this._cloneElement.querySelector('.element__image');
     this._buttonLikeElement = this._cloneElement.querySelector('.element__button-like')
     this._buttonDeleteElement = this._cloneElement.querySelector('.element__button-delete')
-    this._titleElement = this._cloneElement.querySelector('.element__title').textContent = this._name
-    this._imageElement.src = this._link;
-    this._imageElement.alt = this._name;
+    this._titleElement = this._cloneElement.querySelector('.element__title').textContent = this._cardData.name;
+    this._imageElement.src = this._cardData.link;
+    this._imageElement.alt = this._cardData.name;
     this._setEventListeners();
     return this._cloneElement
   }
 }
-
-const popupWrapImage = document.querySelector('#popup-image')
-const popupImage = popupWrapImage.querySelector('.popup__image')
-const popupImageTitle = popupWrapImage.querySelector('.popup__image-title')
 
 export default Card

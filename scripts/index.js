@@ -1,22 +1,15 @@
 import FormValidator from "./formValidator.js"
 import Card from "./card.js"
+import { initialCards, enableValidation } from './constants.js'
 
 const formPopupAdd = document.querySelector('#popup-form-add')
 const formPopupInfo = document.querySelector('#popup-form-info')
 
-const enableValidation = {
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_invalid',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
+const formAddValidator = new FormValidator(formPopupAdd, enableValidation)
+const formInfoValidator = new FormValidator(formPopupInfo, enableValidation)
 
-const formAddInstance = new FormValidator(formPopupAdd, enableValidation)
-const formInfoInstance = new FormValidator(formPopupInfo, enableValidation)
-
-formAddInstance.enableValidation()
-formInfoInstance.enableValidation()
+formAddValidator.enableValidation()
+formInfoValidator.enableValidation()
 
 // Константы для первого попапа
 const popupProfile = document.querySelector('#popup-profile')
@@ -53,18 +46,22 @@ const openPopupEdit = function () {
   jobInput.value = profileJob.textContent;
 };
 
-const openPopupAdd = function () {
+const openPopupAdd = () => {
   openPopup(popupAdd);
   const input = popupAdd.querySelector('.popup__input')
   const button = popupAdd.querySelector('.popup__save-button')
-  if (!input.value) {
-    button.classList.add('popup__save-button_invalid')
-    button.setAttribute('disabled', '')
-  }
-};
+  formAddValidator.toggleButtonState();
+}
+
+function handleOpenPopup(name, link) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupImageTitle.textContent = name;
+  openPopup(popupWrapImage);
+}
 
 //Добавление класса открытия попапа в разметку
-export const openPopup = popup => {
+const openPopup = popup => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupButtonEsc)
   popup.addEventListener('click', closePopupOnOverlay)
@@ -87,16 +84,14 @@ const closePopupOnOverlay = (evt) => {
 const closePopupButtonEsc = (evt) => {
   if (evt.key === 'Escape') {
     const activePopup = document.querySelector('.popup_opened')
-    if (activePopup) {
-      closePopup(activePopup)
-    }
+    closePopup(activePopup)
+
   }
 }
 
 function createNewCard(cardData) {
-  const newCard = new Card(cardData, selectorTemplate);
-  const cardElement = newCard.createCard()
-  return cardElement
+  const newCard = new Card(cardData, selectorTemplate, handleOpenPopup);
+  return newCard.createCard();
 }
 
 //добавление карточки
@@ -105,7 +100,7 @@ function addCard(container, newCard) {
 }
 
 // Обработка Сабмит инпут
-function handleFormSubmit(event) {
+function handleFormProfileSubmit(event) {
   event.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
@@ -124,9 +119,9 @@ function handleAddCard(event) {
 }
 
 // создание при загрузке страницы начальных карточек
-initialCards.forEach(renderCards)
+initialCards.forEach(renderCard)
 
-function renderCards(cardData) {
+function renderCard(cardData) {
   addCard(elements, createNewCard(cardData))
 }
 
@@ -140,14 +135,8 @@ closeButtons.forEach((button) => {
   button.addEventListener('click', () => closePopup(popup));
 });
 
-formProfile.addEventListener('submit', handleFormSubmit);
+formProfile.addEventListener('submit', handleFormProfileSubmit);
 formAdd.addEventListener('submit', handleAddCard);
 
 popupEditButton.addEventListener("click", openPopupEdit);
 popupAddButton.addEventListener("click", openPopupAdd);
-
-
-
-
-
-
