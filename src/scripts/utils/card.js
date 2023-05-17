@@ -21,7 +21,7 @@ class Card {
   _setEventListeners() {
     this._buttonLikeElement.addEventListener('click', this._handleButtonLike)
     this._buttonDeleteElement.addEventListener('click', this._handleButtonDeleteElement)
-    this._imageElement.addEventListener('click', () => this._handleOpenPopup(this._cardData.name, this._cardData.link))
+    this._imageElement.addEventListener('click', () => this._handleOpenPopup(this._cardData))
   }
 
   createCard() {
@@ -29,9 +29,9 @@ class Card {
     this._imageElement = this._cloneElement.querySelector('.element__image');
     this._buttonLikeElement = this._cloneElement.querySelector('.element__button-like')
     this._buttonDeleteElement = this._cloneElement.querySelector('.element__button-delete')
-    this._titleElement = this._cloneElement.querySelector('.element__title').textContent = this._cardData.name;
+    this._titleElement = this._cloneElement.querySelector('.element__title').textContent = this._cardData.title;
     this._imageElement.src = this._cardData.link;
-    this._imageElement.alt = this._cardData.name;
+    this._imageElement.alt = this._cardData.title;
     this._setEventListeners();
     return this._cloneElement
   }
