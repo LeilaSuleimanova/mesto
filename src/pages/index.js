@@ -1,5 +1,5 @@
-import FormValidator from "../scripts/components/formValidator.js"
-import Card from "../scripts/utils/card.js"
+import FormValidator from "../components/formValidator.js"
+import Card from "../components/Сard.js"
 import {
   initialCards,
   enableValidation,
@@ -12,12 +12,12 @@ import {
   popupAddSelector,
   profileInfo,
   formPopupAdd,
-  formPopupInfo } from '../scripts/utils/constants.js'
+  formPopupInfo } from '../utils/Сonstants.js'
 import '../pages/index.css'
-import PopupWithImage from "../scripts/components/popupWithImage.js"
-import Section from "../scripts/components/section.js"
-import UserInfo from "../scripts/components/userInfo.js"
-import PopupWithForm from "../scripts/components/popupWithForm.js"
+import PopupWithImage from "../components/popupWithImage.js"
+import Section from "../components/section.js"
+import UserInfo from "../components/userInfo.js"
+import PopupWithForm from "../components/popupWithForm.js"
 
 const formAddValidator = new FormValidator(formPopupAdd, enableValidation)
 const formInfoValidator = new FormValidator(formPopupInfo, enableValidation)
@@ -59,6 +59,8 @@ popupWithForm.setEventListeners();
 //   popupWithForm.setInputValues(userInfo.getUserInfo())
 //   popupWithForm.open();
 // };
+// popupEditButton.addEventListener("click", openPopupEdit);
+
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 buttonEditProfile.addEventListener("click", () => {
   popupWithForm.setInputValues(userInfo.getUserInfo());
@@ -71,7 +73,6 @@ const openPopupAdd = () => {
   popupAddCard.open();
 }
 
-// popupEditButton.addEventListener("click", openPopupEdit);
 popupAddButton.addEventListener("click", openPopupAdd);
 
 
