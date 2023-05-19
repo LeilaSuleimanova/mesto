@@ -36,7 +36,6 @@ export const enableValidation = {
 
 const formPopupAdd = document.querySelector('#popup-form-add')
 const formPopupInfo = document.querySelector('#popup-form-info')
-const popupEditButton = document.querySelector('.profile__edit-button')
 const popupAddButton = document.querySelector('.profile__add-button')
 const popupProfile = '#popup-profile'
 const selectorElement = '.elements'
@@ -49,7 +48,6 @@ const profileInfo = {
 }
 
 export {
-  popupEditButton,
   popupAddButton,
   popupProfile,
   selectorElement,

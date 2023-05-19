@@ -34,7 +34,6 @@ export default class Popup {
   close(popup) {
     this._popup.classList.remove('popup_opened')
     document.removeEventListener("keydown", this._handleClosePopupByEsc)
-    this._popup.removeEventListener('click', this._handleClosePopupOnOverlay)
   }
 
 }

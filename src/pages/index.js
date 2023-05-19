@@ -3,7 +3,6 @@ import Card from "../components/Сard.js"
 import {
   initialCards,
   enableValidation,
-  popupEditButton,
   popupAddButton,
   popupProfile,
   selectorElement,
@@ -39,32 +38,34 @@ const section = new Section({
 
 section.addCardArray()
 
-const popupWithForm = new PopupWithForm(popupProfile, (data) => {
+const popupFormEdit = new PopupWithForm(popupProfile, (data) => {
   userInfo.setUserInfo(data)
+  popupFormEdit.close()
 })
 
 const popupAddCard = new PopupWithForm(popupAddSelector, (data) => {
   section.addItem(data)
+  popupAddCard.close()
 })
 
 popupAddCard.setEventListeners()
 popupWrapImage.setEventListener();
-popupWithForm.setEventListeners();
+popupFormEdit.setEventListeners();
 
 // Функция открытия попапа
 // const openPopupEdit = function () {
 //   // nameInput.value = profileName.textContent;
 //   // jobInput.value = profileJob.textContent;
 
-//   popupWithForm.setInputValues(userInfo.getUserInfo())
-//   popupWithForm.open();
+//   popupFormEdit.setInputValues(userInfo.getUserInfo())
+//   popupFormEdit.open();
 // };
 // popupEditButton.addEventListener("click", openPopupEdit);
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 buttonEditProfile.addEventListener("click", () => {
-  popupWithForm.setInputValues(userInfo.getUserInfo());
-  popupWithForm.open();
+  popupFormEdit.setInputValues(userInfo.getUserInfo());
+  popupFormEdit.open();
   formInfoValidator.disableButton();
 });
 
