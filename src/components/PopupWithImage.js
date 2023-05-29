@@ -13,7 +13,6 @@ export default class PopupWithImage extends Popup {
     this._popupImageTitle.textContent = cardData.title
     super.open()
   }
-
 }
 
 

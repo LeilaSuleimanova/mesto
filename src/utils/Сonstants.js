@@ -1,30 +1,4 @@
 // Массив карточек
-export const initialCards = [
-  {
-    title: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    title: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    title: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    title: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    title: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    title: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 export const enableValidation = {
   inputSelector: '.popup__input',
@@ -37,14 +11,19 @@ export const enableValidation = {
 const formPopupAdd = document.querySelector('#popup-form-add')
 const formPopupInfo = document.querySelector('#popup-form-info')
 const popupAddButton = document.querySelector('.profile__add-button')
+const popupAvatarButton = document.querySelector('.profile__avatar-button')
+const formPopupAvatar = document.querySelector('#popup-form-avatar')
 const popupProfile = '#popup-profile'
 const selectorElement = '.elements'
 const selectorTemplate = '.template-cards'
 const popupWrapImageSelector = '#popup-image'
 const popupAddSelector = '#popup-add'
+const popupAvatarSelector = '#popup-avatar'
+const popupDeleteSelector = '#popup-delete'
 const profileInfo = {
   userNameSelector: '.profile__title',
-  userDescriptionSelector: '.profile__subtitle'
+  userDescriptionSelector: '.profile__subtitle',
+  userImageSelector: '.profile__avatar'
 }
 
 export {
@@ -56,5 +35,9 @@ export {
   popupAddSelector,
   profileInfo,
   formPopupAdd,
-  formPopupInfo
+  formPopupInfo,
+  popupAvatarSelector,
+  formPopupAvatar,
+  popupAvatarButton,
+  popupDeleteSelector
 }

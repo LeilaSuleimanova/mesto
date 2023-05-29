@@ -7,6 +7,9 @@
   padding: 0 42px 0 0;
   background-image: url(../../../images/heart.svg);
   background-repeat: no-repeat;
+  right: 1px;
+  bottom: 38px;
+  position: absolute;
 }
 
 .element__button-like:hover {
