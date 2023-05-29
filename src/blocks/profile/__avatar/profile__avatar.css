@@ -7,5 +7,5 @@
 
 .profile__avatar:hover {
   opacity: 0.2;
-  cursor: url(../../../images/Vector.png), auto;
+  cursor: url(../../../images/pen_avatar.png), auto;
 }

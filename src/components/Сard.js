@@ -39,6 +39,10 @@ class Card {
     this._counter.textContent = like.length
   }
 
+  likeByMe() {
+    return this._likes.find(card => card._id === this._idUser)
+  }
+
   removeCardElement() {
     this._cloneElement.remove();
     this._cloneElement = null;
@@ -68,3 +72,4 @@ class Card {
 }
 
 export default Card
+

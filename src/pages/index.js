@@ -57,21 +57,22 @@ const popupDeleteCard = new PopupWithDeleteForm(popupDeleteSelector, ({ card, ca
 
 function createNewCard(cardData) {
   const newCard = new Card(cardData, selectorTemplate, popupWrapImage.open,
-    (likeIcon, cardId) => {
-      if (likeIcon.classList.contains('element__button-like_active')) {
-        api.deleteLike(cardId)
+    () => {
+      const isLiked = newCard.likeByMe()
+      if (isLiked) {
+        api.deleteLike(cardData._id)
           .then(res => {
             newCard.toggleLikes(res.likes)
           })
           .catch((error) => console.log(`Ошибка при создании данных ${error}`))
       } else {
-        api.addlike(cardId)
+        api.addlike(cardData._id)
           .then(res => {
             newCard.toggleLikes(res.likes)
           })
           .catch((error) => console.log(`Ошибка при создании данных ${error}`))
       }
-    }, popupDeleteCard.open);
+    }, popupDeleteCard.open)
 
   return newCard.createCard();
 }
@@ -84,10 +85,10 @@ const popupFormEdit = new PopupWithForm(popupProfile, (data) => {
   api.setUserData(data)
     .then(res => {
       userInfo.setUserInfo({ name: res.name, info: res.about, avatar: res.avatar })
+      popupFormEdit.close()
     })
     .catch((error) => console.log(`Ошибка при создании данных ${error}`))
     .finally(() => popupFormEdit.setStartText())
-  popupFormEdit.close()
 })
 
 const popupAvatarEdit = new PopupWithForm(popupAvatarSelector, (data) => {
@@ -101,15 +102,15 @@ const popupAvatarEdit = new PopupWithForm(popupAvatarSelector, (data) => {
 })
 
 const popupAddCard = new PopupWithForm(popupAddSelector, (data) => {
-  Promise.all([api.getData(), api.addNewCard(data)])
-    .then(([infoUser, infoCard]) => {
-      infoCard.idUser = infoUser._id
+  api.addNewCard(data)
+    .then((infoCard) => {
+      console.log()
+      infoCard.idUser = userInfo.getId()
       section.addItem(createNewCard(infoCard))
+      popupAddCard.close()
     })
-    .catch((error) => console.log(`Ошибка при создании данных ${error}`))
+    .catch((error => console.log(`Ошибка при создании данных ${error}`)))
     .finally(() => popupAddCard.setStartText())
-
-  popupAddCard.close()
 })
 
 popupAvatarEdit.setEventListeners()
@@ -142,6 +143,7 @@ Promise.all([api.getData(), api.getInitialCards()])
   .then(([infoUser, infoCard]) => {
     infoCard.forEach(element => element.idUser = infoUser._id)
     userInfo.setUserInfo({ name: infoUser.name, info: infoUser.about, avatar: infoUser.avatar })
+    userInfo.setId(infoUser._id)
     section.addCardArray(infoCard.reverse())
   })
   .catch((error => console.log(`Ошибка при создании данных ${error}`)))

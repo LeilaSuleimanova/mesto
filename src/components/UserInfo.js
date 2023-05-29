@@ -15,4 +15,12 @@ export default class UserInfo {
     this._profileDescription.textContent = info;
   }
 
+  setId(id) {
+    this._id = id
+  }
+
+  getId(id) {
+    return this._id
+  }
+
 }
