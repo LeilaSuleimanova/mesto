@@ -16,7 +16,7 @@
 .profile__avatar-button{background-color:#000;border-style:hidden}
 .element__content{background-color:#fff;border-radius:0 0 10px 10px;color:#000;display:flex;justify-content:space-between;max-width:282px;min-height:79px}
 .element__image{border-radius:10px 10px 0 0;cursor:pointer;height:282px;max-width:282px;-o-object-fit:cover;object-fit:cover}
-.element__title{align-self:center;font-size:24px;font-weight:900;line-height:29px;margin:0;overflow:hidden;padding-left:21px;text-overflow:ellipsis;white-space:nowrap}
+.element__title{align-self:center;font-size:24px;font-weight:900;line-height:29px;margin:0;overflow:hidden;padding-left:21px;padding-right:40px;text-overflow:ellipsis;white-space:nowrap}
 .element{display:flex;flex-direction:column;position:relative}
 .element__button-like{align-self:center;background-color:#fff;background-image:url(images/heart.0bc60938ca96a5dcae18.svg);background-repeat:no-repeat;border-style:hidden;bottom:38px;height:19px;padding:0 42px 0 0;position:absolute;right:1px;width:22px}.element__button-like:hover{cursor:pointer;opacity:.5}
 .element__button-like_active{background-image:url(images/heart.7d05f10516335c399062.png)}
